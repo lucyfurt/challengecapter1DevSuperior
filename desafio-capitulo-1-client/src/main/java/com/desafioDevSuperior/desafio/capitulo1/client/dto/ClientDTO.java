@@ -5,6 +5,7 @@ import com.desafioDevSuperior.desafio.capitulo1.client.entities.Client;
 import java.io.Serializable;
 import java.time.Instant;
 
+
 public class ClientDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

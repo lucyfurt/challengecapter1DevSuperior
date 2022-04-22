@@ -1,9 +1,11 @@
 package com.desafioDevSuperior.desafio.capitulo1.client.entities;
 
 import javax.persistence.*;
+
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+
 
 @Entity
 @Table(name= "tb_client")
@@ -16,6 +18,7 @@ public class Client implements Serializable {
     private String name;
     private String cpf;
     private Double income;
+
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant birthDate;
     private Integer children;
@@ -80,6 +83,8 @@ public class Client implements Serializable {
     public void setChildren(Integer children) {
         this.children = children;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

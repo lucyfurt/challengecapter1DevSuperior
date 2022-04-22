@@ -3,15 +3,18 @@ package com.desafioDevSuperior.desafio.capitulo1.client.services;
 import com.desafioDevSuperior.desafio.capitulo1.client.dto.ClientDTO;
 import com.desafioDevSuperior.desafio.capitulo1.client.entities.Client;
 import com.desafioDevSuperior.desafio.capitulo1.client.repositories.ClientRepository;
+import com.desafioDevSuperior.desafio.capitulo1.client.services.exception.DatabaseException;
+import com.desafioDevSuperior.desafio.capitulo1.client.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 public class ClientService {
@@ -34,15 +37,16 @@ public class ClientService {
     @Transactional
     public ClientDTO insert(ClientDTO dto) {
         Client entity = new Client();
-        //entity.setName(dto.getName());
+        copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new ClientDTO(entity);
     }
+
     @Transactional
     public ClientDTO update(Long id, ClientDTO dto) {
         try{
             Client entity = repository.getOne(id);
-            //entity.setName(dto.getName());
+            copyDtoToEntity(dto, entity);
             entity = repository.save(entity);
             return new ClientDTO(entity);
         }
@@ -64,4 +68,13 @@ public class ClientService {
             throw new DatabaseException("Integrity violation");
         }
     }
-}
+    private void copyDtoToEntity(ClientDTO dto, Client entity) {
+        entity.setName(dto.getName());
+        entity.setCpf(dto.getCpf());
+        entity.setIncome(dto.getIncome());
+        entity.setBirthDate(dto.getBirthDate());
+        entity.setChildren(dto.getChildren());
+
+        }
+    }
+
